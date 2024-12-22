@@ -3,7 +3,7 @@
 作品持续更新中，更多内容敬请期待！
 
 # Minecraft模组
-[OldDenCounting](https://github.com/XiaoCZ-Wu/MinecraftMod-OldDenCounting) 更新至v1.0.0  
+[OldDenCounting](./OldDenCounting/README.md) 更新至v1.0.0  
 [SmallPotato](https://github.com/XiaoCZ-Wu/MinecraftMod-SmallPotato) 更新至v1.0.0  
 [敬请期待]
 
