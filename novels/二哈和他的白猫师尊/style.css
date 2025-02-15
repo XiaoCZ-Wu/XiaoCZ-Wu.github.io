@@ -1,0 +1,119 @@
+/* 基础样式 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+nav {
+    margin-bottom: 20px;
+}
+
+#theme-controls {
+    margin-bottom: 10px;
+}
+
+#theme-controls button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: #fff;
+    cursor: pointer;
+}
+
+#theme-controls button:hover {
+    background-color: #0056b3;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    margin-bottom: 5px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #007BFF;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+body.light-mode main {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode main {
+    background-color: #444;
+    color: #fff;
+}
+
+#chapter-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+#chapter-text {
+    line-height: 1.6;
+    text-align: justify;
+}
+
+.controls {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.controls a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #007BFF;
+}
+
+.controls a:hover {
+    text-decoration: underline;
+}
+
+/* 响应式布局 */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    .controls a {
+        display: block;
+        margin: 10px 0;
+    }
+}
