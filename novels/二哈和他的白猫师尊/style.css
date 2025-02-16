@@ -52,16 +52,28 @@ nav ul {
 }
 
 nav ul li {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    padding: 8px;
+    background-color: #f0f0f0; /* 浅色背景 */
+    border: 1px solid #ddd; /* 边框 */
+    border-radius: 4px; /* 圆角 */
+    transition: background-color 0.3s, transform 0.3s; /* 动画效果 */
 }
 
 nav ul li a {
+    display: block;
+    padding: 5px 10px;
     text-decoration: none;
-    color: #007BFF;
+    color: #333; /* 文字颜色 */
+    font-weight: bold; /* 加粗字体 */
+    transition: color 0.3s, background-color 0.3s;
 }
 
 nav ul li a:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    color: #fff; /* 鼠标悬停时文字颜色 */
+    background-color: #007BFF; /* 鼠标悬停时背景颜色 */
+    transform: scale(1.05); /* 鼠标悬停时放大效果 */
 }
 
 body.light-mode main {
@@ -70,6 +82,20 @@ body.light-mode main {
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode nav ul li {
+    background-color: #444; /* 深色背景 */
+    border-color: #555; /* 深色边框 */
+}
+
+body.dark-mode nav ul li a {
+    color: #ccc; /* 深色模式下文字颜色 */
+}
+
+body.dark-mode nav ul li a:hover {
+    color: #fff; /* 深色模式下悬停文字颜色 */
+    background-color: #555; /* 深色模式下悬停背景颜色 */
 }
 
 body.dark-mode main {
