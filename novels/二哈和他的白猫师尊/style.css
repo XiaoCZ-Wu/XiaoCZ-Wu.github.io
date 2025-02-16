@@ -119,18 +119,42 @@ body.dark-mode main {
 }
 
 .controls {
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* 控制按钮之间的间距 */
 }
 
 .controls a {
     margin: 0 10px;
     text-decoration: none;
-    color: #007BFF;
+    color: #333; /* 默认文字颜色 */
+    background-color: #f0f0f0; /* 浅色背景 */
+    border: 1px solid #ddd; /* 边框 */
+    border-radius: 4px; /* 圆角 */
+    padding: 8px 16px; /* 增加内边距 */
+    font-weight: bold; /* 加粗字体 */
+    transition: background-color 0.3s, color 0.3s, transform 0.3s; /* 动画效果 */
 }
 
 .controls a:hover {
-    text-decoration: underline;
+    background-color: #007BFF; /* 鼠标悬停时背景颜色 */
+    color: #fff; /* 鼠标悬停时文字颜色 */
+    transform: scale(1.05); /* 鼠标悬停时放大效果 */
+}
+
+/* 深色模式下控制按钮样式 */
+body.dark-mode .controls a {
+    background-color: #444; /* 深色背景 */
+    border-color: #555; /* 深色边框 */
+    color: #ccc; /* 深色模式下文字颜色 */
+}
+
+body.dark-mode .controls a:hover {
+    background-color: #555; /* 深色模式下悬停背景颜色 */
+    color: #fff; /* 深色模式下悬停文字颜色 */
 }
 
 /* 响应式布局 */
