@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const chapterText = document.getElementById("chapter-text");
     const controls = document.querySelector(".controls");
     const content = document.getElementById("content");
-    const returnToMenu = document.getElementById("return-to-menu");
+    const returnToMenuTop = document.getElementById("return-to-menu-top");
+    const returnToMenuBottom = document.getElementById("return-to-menu-bottom");
     let chapters = [];
     let currentChapterIndex = 0;
 
@@ -81,7 +82,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 返回目录
-    returnToMenu.addEventListener("click", () => {
+    returnToMenuTop.addEventListener("click", () => {
+        // 清空内容并重新加载目录
+        chapterTitle.textContent = "";
+        chapterText.innerHTML = "";
+        content.style.display = "none";
+
+        // 重新显示目录
+        menu.style.display = "block";
+    });
+
+    returnToMenuBottom.addEventListener("click", () => {
         // 清空内容并重新加载目录
         chapterTitle.textContent = "";
         chapterText.innerHTML = "";
