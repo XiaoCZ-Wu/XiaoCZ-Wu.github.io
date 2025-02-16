@@ -58,9 +58,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 更新控制按钮状态
     function updateControls() {
-        document.getElementById("prev-chapter").style.display = currentChapterIndex > 0 ? "inline" : "none";
-        document.getElementById("next-chapter").style.display = currentChapterIndex < chapters.length - 1 ? "inline" : "none";
+        document.getElementById("prev-chapter-top").style.display = currentChapterIndex > 0 ? "inline" : "none";
+        document.getElementById("next-chapter-top").style.display = currentChapterIndex < chapters.length - 1 ? "inline" : "none";
+        document.getElementById("prev-chapter-bottom").style.display = currentChapterIndex > 0 ? "inline" : "none";
+        document.getElementById("next-chapter-bottom").style.display = currentChapterIndex < chapters.length - 1 ? "inline" : "none";
     }
+
+    // 控制按钮事件
+    document.getElementById("prev-chapter-top").addEventListener("click", () => loadChapter(currentChapterIndex - 1));
+    document.getElementById("next-chapter-top").addEventListener("click", () => loadChapter(currentChapterIndex + 1));
+    document.getElementById("prev-chapter-bottom").addEventListener("click", () => loadChapter(currentChapterIndex - 1));
+    document.getElementById("next-chapter-bottom").addEventListener("click", () => loadChapter(currentChapterIndex + 1));
 
     // 切换为浅色模式
     function toLightMode() {
@@ -71,10 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function toDarkMode() {
         document.body.className = "dark-mode";
     }
-
-    // 控制按钮事件
-    document.getElementById("prev-chapter").addEventListener("click", () => loadChapter(currentChapterIndex - 1));
-    document.getElementById("next-chapter").addEventListener("click", () => loadChapter(currentChapterIndex + 1));
 
     // 返回目录
     returnToMenu.addEventListener("click", () => {
