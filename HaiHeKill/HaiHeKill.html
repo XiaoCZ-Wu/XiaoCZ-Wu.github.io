@@ -1,1 +1,423 @@
-
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>海河杀卡牌游戏</title>
+    <style>
+        @font-face {
+            font-family: "黑体";
+            src: url("./fonts/simhei.ttf") format("truetype");
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: "黑体", sans-serif;
+            overflow: hidden;
+            background-color: #000;
+            color: white;
+            height: 100vh;
+            width: 100vw;
+            touch-action: manipulation;
+        }
+        
+        #app-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        #background-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+        
+        #screen-manager {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+        
+        .screen.active {
+            display: flex;
+        }
+        
+        /* 竖屏提示 */
+        #orientation-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        #orientation-message img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            animation: rotate 2s infinite;
+        }
+        
+        #orientation-message h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        #orientation-message p {
+            font-size: 18px;
+            color: #ccc;
+            max-width: 80%;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(90deg); }
+        }
+        
+        /* Menu Screen Styles */
+        .menu-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+        
+        .menu-options {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 90%;
+            max-width: 900px;
+            gap: 15px;
+        }
+        
+        .menu-logo {
+            width: 80%;
+            max-height: 30vh;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+        
+        .menu-button {
+            font-family: "黑体";
+            font-size: 5vw;
+            min-height: 8vh;
+            width: 80%;
+            max-width: 520px;
+            background-color: rgba(179, 179, 179, 0.5);
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            padding: 10px;
+        }
+        
+        .menu-button:hover {
+            background-color: rgba(179, 179, 179, 0.7);
+        }
+        
+        /* Decks Screen Styles */
+        .decks-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            padding: 10px;
+            gap: 10px;
+        }
+        
+        .decks-title {
+            font-size: 6vw;
+            text-align: center;
+            padding: 10px 0 0 0;
+            height: auto;
+        }
+        
+        .decks-scroll-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+        
+        .decks-scroll-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            z-index: -1;
+        }
+        
+        .decks-scroll-view {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 20px 0;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .decks-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            padding: 0 10px;
+        }
+        
+        .decks-button {
+            font-family: "黑体";
+            font-size: 5vw;
+            width: 90%;
+            min-height: 12vh;
+            margin: 0 auto;
+            background-color: rgba(179, 179, 179, 0.5);
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            padding: 10px;
+        }
+        
+        .decks-button:hover {
+            background-color: rgba(179, 179, 179, 0.7);
+        }
+        
+        .decks-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            height: auto;
+            padding: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .control-button {
+            font-family: "黑体";
+            font-size: 4vw;
+            width: 30%;
+            min-width: 120px;
+            min-height: 6vh;
+            background-color: rgba(179, 179, 179, 0.5);
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            padding: 10px;
+        }
+        
+        .control-button:hover {
+            background-color: rgba(179, 179, 179, 0.7);
+        }
+        
+        /* Start Screen Styles */
+        .start-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+        
+        /* 响应式调整 */
+        @media (orientation: portrait) {
+            #orientation-message {
+                display: flex;
+            }
+            
+            .screen.active {
+                display: none;
+            }
+        }
+        
+        @media (orientation: landscape) {
+            #orientation-message {
+                display: none;
+            }
+            
+            .screen.active {
+                display: flex;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .menu-button {
+                font-size: 30px;
+            }
+            
+            .decks-button {
+                font-size: 30px;
+            }
+            
+            .control-button {
+                font-size: 24px;
+            }
+            
+            .decks-title {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app-container">
+        <img id="background-image" src="./images/background.png" alt="Background">
+        
+        <!-- 竖屏提示 -->
+        <div id="orientation-message">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTE5IDdIMTdWMTlIMTlNNyA3SDRWMTlIN1Y3TTE1IDVWMTlIMTFWNVYxOUgxNVY1WiIgZmlsbD0id2hpdGUiLz48L3N2Zz4=" alt="Rotate">
+            <h2>请将手机横屏使用</h2>
+            <p>为了获得最佳游戏体验，请将您的设备旋转至横屏模式</p>
+        </div>
+        
+        <div id="screen-manager">
+            <!-- Menu Screen -->
+            <div id="menu-screen" class="screen active">
+                <div class="menu-container">
+                    <div class="menu-options">
+                        <img class="menu-logo" src="./images/logo.png" alt="Game Logo">
+                        <button class="menu-button" onclick="changeScreen('start-screen')">开始游戏</button>
+                        <button class="menu-button" onclick="changeScreen('decks-screen')">我的牌组</button>
+                        <button class="menu-button" onclick="alert('游戏设置功能')">游戏设置</button>
+                        <button class="menu-button" onclick="exitGame()">退出游戏</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Start Screen -->
+            <div id="start-screen" class="screen">
+                <div class="start-container">
+                    <button class="menu-button" onclick="changeScreen('menu-screen')">返回菜单</button>
+                </div>
+            </div>
+            
+            <!-- Decks Screen -->
+            <div id="decks-screen" class="screen">
+                <div class="decks-container">
+                    <div class="decks-title">我的牌组</div>
+                    
+                    <div class="decks-scroll-container">
+                        <img class="decks-scroll-bg" src="./images/shade.png" alt="Scroll Background">
+                        <div class="decks-scroll-view">
+                            <div class="decks-layout">
+                                <button class="decks-button" onclick="changeScreen('adjust-decks-screen')">牌组1</button>
+                                <button class="decks-button" onclick="changeScreen('adjust-decks-screen')">牌组2</button>
+                                <button class="decks-button" onclick="changeScreen('adjust-decks-screen')">牌组3</button>
+                                <button class="decks-button" onclick="changeScreen('adjust-decks-screen')">牌组4</button>
+                                <button class="decks-button" onclick="changeScreen('adjust-decks-screen')">牌组5</button>
+                                <button class="decks-button" onclick="changeScreen('adjust-decks-screen')">牌组6</button>
+                                <button class="decks-button" onclick="changeScreen('adjust-decks-screen')">牌组7</button>
+                                <button class="decks-button" onclick="changeScreen('adjust-decks-screen')">牌组8</button>
+                                <button class="decks-button" onclick="changeScreen('adjust-decks-screen')">牌组9</button>
+                                <button class="decks-button" onclick="changeScreen('adjust-decks-screen')">牌组10</button>
+                                <button class="decks-button" onclick="changeScreen('adjust-decks-screen')">牌组11</button>
+                                <button class="decks-button" onclick="changeScreen('adjust-decks-screen')">牌组12</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="decks-controls">
+                        <button class="control-button">新建牌组</button>
+                        <button class="control-button">卡牌图鉴</button>
+                        <button class="control-button" onclick="changeScreen('menu-screen')">返回主页</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Adjust Decks Screen -->
+            <div id="adjust-decks-screen" class="screen">
+                <div class="start-container">
+                    <button class="menu-button" onclick="changeScreen('decks-screen')">返回牌组列表</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 屏幕管理
+        function changeScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+        
+        // 退出游戏处理
+        function exitGame() {
+            if (confirm('确定要退出游戏吗？')) {
+                // 如果是网页应用，可以重定向或关闭窗口
+                if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
+                    // PWA应用
+                    window.navigator.app.exitApp();
+                } else if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.close();
+                }
+            }
+        }
+        
+        // 检测横竖屏变化
+        function checkOrientation() {
+            const orientationMessage = document.getElementById('orientation-message');
+            const isPortrait = window.innerHeight > window.innerWidth;
+            
+            if (isPortrait) {
+                orientationMessage.style.display = 'flex';
+                document.querySelectorAll('.screen').forEach(screen => {
+                    screen.style.display = 'none';
+                });
+            } else {
+                orientationMessage.style.display = 'none';
+                document.querySelector('.screen.active').style.display = 'flex';
+            }
+        }
+        
+        // 初始检查和事件监听
+        window.addEventListener('load', checkOrientation);
+        window.addEventListener('resize', checkOrientation);
+        window.addEventListener('orientationchange', checkOrientation);
+        
+        // 禁用双击缩放 (iOS)
+        document.addEventListener('dblclick', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+        
+        // 禁用长按菜单
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
