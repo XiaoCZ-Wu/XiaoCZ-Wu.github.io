@@ -12,3 +12,6 @@
 
 # 小说
 [点击此处打开目录](./novels.md)
+
+# 海河杀卡牌游戏
+[开始游戏](./HaiHeKill/HaiHeKill.html)
